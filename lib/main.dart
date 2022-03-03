@@ -1,96 +1,79 @@
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.blueGrey,
-        title: Text(
-          'Календарь 2022',
-          style: TextStyle(
-              fontSize: 35,
-              fontFamily: 'fonts/Redressed-Regular.ttf',
-              color: Colors.white70),
-        ),
-      ),
+  runApp(MyFirstApp());
+}
 
-            body: Container(
-        color: Colors.blueGrey,
-                child: Center(
-      child: ListView(
-      children: [
-        SizedBox(
-        height: 200.0,
-        width: double.infinity,
-        child: Carousel(
-          dotSize: 6.0,
-          dotColor: Colors.blueGrey,
-          dotSpacing: 15,
-          images: [
-            Image.asset(
-              'image/images/v-yanvare-2022-goda.png',
-              fit: BoxFit.scaleDown,
+class MyFirstApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "",
+                style: TextStyle(fontSize: 32),
+                textAlign: TextAlign.center,
+              ),
             ),
-            Image.asset(
-              'image/images/fevral-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/mart-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/aprel-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/may-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/iun-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/iul-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/avgust-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/sentiabr-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/oktiabr-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/noiyabr-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-            Image.asset(
-              'image/images/dekabr-2022.png',
-              fit: BoxFit.scaleDown,
-            ),
-          ],
-        ),
-      )
-      ],
-    ),
-  ),
+            body: MyBody()));
+  }
+}
 
-    //decoration: BoxDecoration(color: Colors.blueGrey,
-    //borderRadius: BorderRadius.all(Radius.circular(15))),
-    // child:
-    // Image(
-    //   image: AssetImage('image/images/fevral-2022.png'),
-//
-  )))
-  );
+class MyBody extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyBodyState();
+}
+
+class _MyBodyState extends State<MyBody> {
+  int value = 0;
+  double fontSize = 22;
+
+  @override
+  Widget build(BuildContext context) {
+    List<ListItem> items = [];
+    for (int i = 0; i < 1000; i++) {
+      ListItem item;
+      if (i % 5 == 0) {
+        item = HeadItem('$i');
+      } else {
+        item = MessageItem('$i');
+      }
+      items.add(item);
+    }
+    return ListView.builder(itemBuilder: (context, index) {
+      var item = items[index];
+      if (item is MessageItem) {
+        return Card(
+          child: Text(
+            item.message,
+            style: TextStyle(fontSize: 25),
+          ),
+        );
+      } else if (item is HeadItem) {
+        return Container(
+          child: Text(
+            item.title,
+            style: TextStyle(fontSize: 56),
+          ),
+          color: Colors.blue,
+        );
+      }
+      return SizedBox();
+    });
+  }
+}
+class ListItem {}
+
+class HeadItem extends ListItem {
+  String title;
+
+  HeadItem(this.title);
+}
+
+class MessageItem extends ListItem {
+  String message;
+
+  MessageItem(this.message);
 }
