@@ -12,7 +12,7 @@ class MyFirstApp extends StatelessWidget {
         home: Scaffold(
             appBar: AppBar(
               title: const Text(
-                "",
+                "Классы",
                 style: TextStyle(fontSize: 32),
                 textAlign: TextAlign.center,
               ),
@@ -35,8 +35,10 @@ class _MyBodyState extends State<MyBody> {
     List<ListItem> items = [];
     for (int i = 0; i < 1000; i++) {
       ListItem item;
-      if (i % 5 == 0) {
+      if (i % 10 == 0) {
         item = HeadItem('$i');
+      } else if (i % 5 == 0) {
+        item = ColorItem('$i');
       } else {
         item = MessageItem('$i');
       }
@@ -51,14 +53,26 @@ class _MyBodyState extends State<MyBody> {
             style: TextStyle(fontSize: 25),
           ),
         );
-      } else if (item is HeadItem) {
-        return Container(
+      } else if (item is ColorItem){
+        return Card(
+          child: Text(
+            item.color,
+            style: TextStyle(color: Colors.red, fontSize: 48),
+            textAlign: TextAlign.center,
+          ),
+          color: Colors.blueGrey,
+        );
+    } else {
+        (item is HeadItem) async {
+          return Container(
           child: Text(
             item.title,
             style: TextStyle(fontSize: 56),
+            textAlign: TextAlign.center,
           ),
           color: Colors.blue,
         );
+        };
       }
       return SizedBox();
     });
@@ -71,9 +85,14 @@ class HeadItem extends ListItem {
 
   HeadItem(this.title);
 }
-
+  class ColorItem extends ListItem{
+  String color;
+  ColorItem(this.color);
+  }
 class MessageItem extends ListItem {
   String message;
 
   MessageItem(this.message);
 }
+
+
