@@ -9,11 +9,14 @@ class MyFirstApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: Scaffold(
             appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.tealAccent,
               title: const Text(
                 "Классы",
-                style: TextStyle(fontSize: 32),
+                style: TextStyle(fontSize: 42, color: Colors.redAccent),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -48,36 +51,52 @@ class _MyBodyState extends State<MyBody> {
       var item = items[index];
       if (item is MessageItem) {
         return Card(
+          shape: RoundedRectangleBorder(
+              side: BorderSide( color: Colors.green, width: 2),
+              borderRadius: BorderRadius.all(Radius.circular(15))
+          ),
           child: Text(
             item.message,
-            style: TextStyle(fontSize: 25),
-          ),
-        );
-      } else if (item is ColorItem){
-        return Card(
-          child: Text(
-            item.color,
-            style: TextStyle(color: Colors.red, fontSize: 48),
+            style: TextStyle(fontSize: 45, color: Colors.green),
             textAlign: TextAlign.center,
           ),
-          color: Colors.blueGrey,
         );
-    } else {
-        (item is HeadItem) async {
-          return Container(
-          child: Text(
-            item.title,
-            style: TextStyle(fontSize: 56),
-            textAlign: TextAlign.center,
-          ),
-          color: Colors.blue,
-        );
-        };
-      }
-      return SizedBox();
-    });
+      } else if (item is ColorItem) {
+        return SizedBox(width: 20,
+            height: 60, child:
+            Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide( color: Colors.blue, width: 4),
+                borderRadius: BorderRadius.all(Radius.circular(15))
+              ),
+              child: Text(
+                item.color,
+                style: TextStyle(color: Colors.cyan, fontSize: 50),
+                textAlign: TextAlign.center,
+              ),
+              color: Colors.teal,
+            ));
+        } else
+            if (item is HeadItem)
+        {
+          return Card(
+            shape: RoundedRectangleBorder(
+                side: BorderSide( color: Colors.green, width: 4),
+                borderRadius: BorderRadius.all(Radius.circular(15))
+            ),
+            child: Text(
+              item.title,
+              style: TextStyle(fontSize: 70, color: Colors.redAccent),
+              textAlign: TextAlign.center,
+            ),
+            color: Colors.greenAccent,
+          );
+        }
+        return SizedBox();
+      });
   }
 }
+
 class ListItem {}
 
 class HeadItem extends ListItem {
@@ -85,14 +104,15 @@ class HeadItem extends ListItem {
 
   HeadItem(this.title);
 }
-  class ColorItem extends ListItem{
+
+class ColorItem extends ListItem {
   String color;
+
   ColorItem(this.color);
-  }
+}
+
 class MessageItem extends ListItem {
   String message;
 
   MessageItem(this.message);
 }
-
-
